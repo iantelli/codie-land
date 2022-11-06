@@ -3,7 +3,6 @@ import { trpc } from "../utils/trpc";
 import Button from "../components/Button";
 import PostSmall from "../components/PostSmall";
 import { useRouter } from "next/router";
-import NavBar from "../components/NavBar";
 
 const Posts = () => {
   const { data: posts, isLoading } = trpc.post.getAll.useQuery();
@@ -30,8 +29,8 @@ const Posts = () => {
               key={index}
               post={post}
               onLike={handleLike}
-              onComment={() => router.push(`/post/${post.id}`)}
-              href={`/post/${post.id}`}
+              onComment={() => router.push(`/code/${post.id}`)}
+              href={`/code/${post.id}`}
               user={post.User}
             />
           </>

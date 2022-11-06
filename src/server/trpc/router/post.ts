@@ -18,6 +18,28 @@ export const postRouter = router({
     }
   }),
 
+  findPost: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const result = await ctx.prisma.post.findFirst({
+          where: {
+            id: input.id,
+          },
+          include: {
+            User: true,
+          },
+        });
+        return result;
+      } catch (error) {
+        console.log("error", error);
+      }
+    }),
+
   postCode: protectedProcedure
     .input(
       z.object({

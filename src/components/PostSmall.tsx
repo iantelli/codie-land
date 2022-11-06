@@ -48,11 +48,7 @@ export default function PostSmall({
                   {formatTimeAgo(post.createdAt)}
                 </p>
               </div>
-              <div className="mt-1 flex-1">
-                <p className="text-xl font-semibold text-gray-100">
-                  {post.title}
-                </p>
-              </div>
+              <div className="mt-1 flex-1"></div>
             </div>
           </div>
           <pre className="mx-5 mt-4 max-h-52 overflow-hidden whitespace-pre-wrap break-words border-b border-gray-700">

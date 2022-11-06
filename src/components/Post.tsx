@@ -49,7 +49,9 @@ export default function Post({
             </p>
           </div>
           <div className="mt-1 flex-1">
-            <p className="text-xl font-semibold text-gray-100">Title</p>
+            <p className="text-xl font-semibold text-gray-100">
+              {post?.language}
+            </p>
           </div>
         </div>
       </div>

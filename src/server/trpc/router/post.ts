@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../trpc";
-import { useSession } from "next-auth/react";
 
 export const postRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -9,15 +8,17 @@ export const postRouter = router({
         include: {
           User: true,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
-      console.log(result);
       return result;
     } catch (error) {
       console.log("error", error);
     }
   }),
 
-  postMessage: protectedProcedure
+  postCode: protectedProcedure
     .input(
       z.object({
         code: z.string(),
@@ -30,11 +31,7 @@ export const postRouter = router({
           data: {
             code: input.code,
             language: input.language,
-            User: {
-              connect: {
-                id: ctx.session.user.id,
-              },
-            },
+            userId: ctx.session.user.id,
           },
         });
       } catch (error) {

@@ -20,6 +20,7 @@
     "@trpc/next": "^10.0.0-proxy-beta.26",
     "@trpc/react-query": "^10.0.0-proxy-beta.26",
     "@trpc/server": "^10.0.0-proxy-beta.26",
+    "heroicons": "^2.0.13",
     "highlight.js": "^11.6.0",
     "javascript-time-ago": "^2.5.9",
     "next": "13.0.2",

@@ -1,5 +1,5 @@
 import Post from "../../components/Post";
-import PostSmall from "../../components/PostSmall";
+import Comments from "../../components/Comments";
 import { trpc } from "../../utils/trpc";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -9,8 +9,9 @@ export default function Code() {
   const router = useRouter();
   const postId = router.query.id as string;
   const id = parseInt(postId);
-  console.log(id);
   const { data: post, isLoading } = trpc.post.findPost.useQuery({ id });
+  const { data: comments, isLoading: commentsLoading } =
+    trpc.comment.getAllFromPost.useQuery({ id });
   const like = trpc.like.likePost.useMutation();
 
   const handleLike = async (postId: number, userId: string) => {
@@ -28,14 +29,20 @@ export default function Code() {
   if (isLoading) return <div>Fetching posts...</div>;
 
   return (
-    <div className="mx-auto my-6 max-w-5xl px-6 pt-8 pb-10 lg:pt-12 lg:pb-14">
+    <>
       <Post
+        className="mx-auto my-6 max-w-2xl px-6"
         post={post}
         onLike={handleLike}
         onComment={() => router.push(`/code/${post?.id}`)}
         user={post?.User}
         liked={false}
       />
-    </div>
+      <div className="mx-auto my-6 max-w-2xl border-t border-gray-600">
+        <Comments comments={comments} />
+      </div>
+
+      <div> </div>
+    </>
   );
 }

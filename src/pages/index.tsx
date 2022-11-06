@@ -2,6 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import Button from "../components/Button";
 import PostSmall from "../components/PostSmall";
+import CommentForm from "../components/CommentForm";
 import { useRouter } from "next/router";
 
 const Posts = () => {

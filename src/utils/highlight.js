@@ -1,8 +1,8 @@
 // import hljs from 'highlight.js/lib/core';
 import hljs from "highlight.js";
-import javascript from "highlight.js/lib/languages/javascript";
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("js", javascript);
+// import javascript from "highlight.js/lib/languages/javascript";
+// hljs.registerLanguage("javascript", javascript);
+// hljs.registerLanguage("js", javascript);
 import markdown from "highlight.js/lib/languages/markdown";
 hljs.registerLanguage("markdown", markdown);
 

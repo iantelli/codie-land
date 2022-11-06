@@ -18,7 +18,7 @@ const Posts = () => {
     await like.mutateAsync({ postId, userId });
   };
 
-  if (isLoading) return <div>Fetching messages...</div>;
+  if (isLoading) return <div>Fetching posts...</div>;
 
   return (
     <div>

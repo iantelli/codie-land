@@ -12,6 +12,26 @@ export const commentRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        await ctx.prisma.post.update({
+          where: {
+            id: input.postId,
+          },
+          data: {
+            totalComments: {
+              increment: 1,
+            },
+          },
+        });
+        await ctx.prisma.user.update({
+          where: {
+            id: input.userId,
+          },
+          data: {
+            totalComments: {
+              increment: 1,
+            },
+          },
+        });
         await ctx.prisma.comment.create({
           data: {
             postId: input.postId,

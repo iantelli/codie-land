@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "./Button";
-export default function NewPostForm({
+export default function CommentForm({
   onSubmit,
   user,
   className = "",

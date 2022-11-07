@@ -1,22 +1,20 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
-import Button from "../components/Button";
 import PostSmall from "../components/PostSmall";
-import CommentForm from "../components/CommentForm";
 import { useRouter } from "next/router";
 
 const Posts = () => {
   const { data: posts, isLoading } = trpc.post.getAll.useQuery();
   const { data: session } = useSession();
-  const like = trpc.like.likePost.useMutation();
   const router = useRouter();
+  const like = trpc.like.likePost.useMutation();
 
-  const handleLike = async (postId: number, userId: string) => {
+  const handleLike = async (id: number) => {
     if (!session) {
       signIn();
       return;
     }
-    await like.mutateAsync({ postId, userId });
+    await like.mutateAsync({ postId: id, userId: session!.user!.id });
   };
 
   if (isLoading) return <div>Fetching posts...</div>;
@@ -52,29 +50,6 @@ const Home = () => {
   return (
     <div className="mx-auto max-w-7xl px-2 pt-8 pb-10 lg:pt-12 lg:pb-14">
       <div className="mx-auto max-w-2xl">
-        {/* <div className="pt-10">
-          <div>
-            {session ? (
-              <>
-                <p>hi {session.user?.name}</p>
-                <button onClick={() => signOut()}>Logout</button>
-              </>
-            ) : (
-              <>
-                <Button
-                  onClick={() => signIn("discord")}
-                  className="bg-blue-600"
-                >
-                  Login with Discord
-                </Button>
-                <Button
-                  onClick={() => signIn("github")}
-                  className="bg-gray-800"
-                >
-                  Login with Github
-                </Button>
-              </>
-            )} */}
         <Posts />
       </div>
     </div>

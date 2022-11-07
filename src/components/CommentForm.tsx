@@ -22,7 +22,7 @@ export default function CommentForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className={"space-y-6 " + className}
+      className={"space-y-6" + className}
       action="#"
       method="POST"
     >
@@ -50,7 +50,7 @@ export default function CommentForm({
               name="comment"
               autoComplete="comment"
               required
-              className="bg-dark relative block h-20 w-full appearance-none rounded-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-100 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="bg-dark relative block h-20 w-full appearance-none rounded-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-700 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Comment"
             />
             <Button>Add Comment</Button>

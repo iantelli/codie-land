@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
+import { router, protectedProcedure } from "../trpc";
 
 export const likeRouter = router({
-  likePost: publicProcedure
+  likePost: protectedProcedure
     .input(
       z.object({
         postId: z.number(),
@@ -11,27 +11,28 @@ export const likeRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.like.create({
+        await ctx.prisma.post.update({
+          where: {
+            id: input.postId,
+          },
           data: {
-            postId: input.postId,
-            userId: input.userId,
+            totalLikes: {
+              increment: 1,
+            },
           },
         });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
-  unlikePost: publicProcedure
-    .input(
-      z.object({
-        postId: z.number(),
-        userId: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.like.deleteMany({
+        await ctx.prisma.user.update({
           where: {
+            id: input.userId,
+          },
+          data: {
+            totalLikes: {
+              increment: 1,
+            },
+          },
+        });
+        await ctx.prisma.like.create({
+          data: {
             postId: input.postId,
             userId: input.userId,
           },

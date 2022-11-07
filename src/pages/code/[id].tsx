@@ -32,10 +32,6 @@ export default function Code() {
     });
   };
 
-  if (!session) {
-    return <div>Not authenticated</div>;
-  }
-
   if (isLoading && commentsLoading) return <div>Fetching posts...</div>;
 
   return (
@@ -49,7 +45,11 @@ export default function Code() {
         liked={false}
       />
       <div className="mx-auto my-6 max-w-2xl border-t border-gray-600">
-        <CommentForm onSubmit={handleSubmitComment} user={session.user} />
+        {session ? (
+          <CommentForm onSubmit={handleSubmitComment} user={session.user} />
+        ) : (
+          <div className="mx-auto"> Must be signed in to Comment</div>
+        )}
         <Comments comments={comments} />
       </div>
 

@@ -67,4 +67,28 @@ export const commentRouter = router({
         console.log(error);
       }
     }),
+  findCommentsByUserId: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const result = await ctx.prisma.comment.findMany({
+          where: {
+            userId: input.id,
+          },
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
+        return result;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });

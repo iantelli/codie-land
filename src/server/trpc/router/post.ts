@@ -40,6 +40,31 @@ export const postRouter = router({
       }
     }),
 
+  findPostsByUserId: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const result = await ctx.prisma.post.findMany({
+          where: {
+            userId: input.id,
+          },
+          include: {
+            User: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
+        return result;
+      } catch (error) {
+        console.log("error", error);
+      }
+    }),
+
   postCode: protectedProcedure
     .input(
       z.object({

@@ -7,6 +7,7 @@ export const postRouter = router({
       const result = await ctx.prisma.post.findMany({
         include: {
           User: true,
+          likes: true,
         },
         orderBy: {
           createdAt: "desc",
@@ -32,6 +33,7 @@ export const postRouter = router({
           },
           include: {
             User: true,
+            likes: true,
           },
         });
         return result;
@@ -54,6 +56,7 @@ export const postRouter = router({
           },
           include: {
             User: true,
+            likes: true,
           },
           orderBy: {
             createdAt: "desc",

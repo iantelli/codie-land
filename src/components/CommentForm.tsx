@@ -53,7 +53,7 @@ export default function CommentForm({
               className="bg-dark relative block h-20 w-full appearance-none rounded-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-700 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Comment"
             />
-            <Button>Add Comment</Button>
+            <Button className="my-4 bg-green-900">Add Comment</Button>
           </div>
         </div>
       </div>

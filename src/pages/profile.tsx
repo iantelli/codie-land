@@ -21,25 +21,21 @@ export default function Component() {
     });
   const router = useRouter();
   const like = trpc.like.likePost.useMutation();
+  const unlike = trpc.like.unlikePost.useMutation();
 
-  const handleLike = async (id: number) => {
+  const handleLike = async (postId: number, userId: string) => {
     if (!session) {
       signIn();
       return;
     }
-    await like.mutateAsync({ postId: id, userId: session!.user!.id });
+    if (post.liked) {
+      await like.mutateAsync({ postId, userId });
+    }
   };
 
   if (session) {
     return (
       <>
-        <Head>
-          <link
-            rel="stylesheet"
-            href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/hybrid.min.css"
-          />
-          <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-        </Head>
         <div className="mx-auto max-w-7xl px-2 pt-8 pb-10 lg:pt-12 lg:pb-14">
           <div className="mx-auto max-w-2xl">
             <h1 className="text-3xl font-bold text-gray-100">
@@ -69,7 +65,7 @@ export default function Component() {
                   <PostSmall
                     key={index}
                     post={post}
-                    onLike={handleLike}
+                    onLike={() => handleLike(post.id, session!.user!.id)}
                     onComment={() => router.push(`/code/${post.id}`)}
                     href={`/code/${post.id}`}
                     user={post.User}

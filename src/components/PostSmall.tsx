@@ -14,7 +14,7 @@ export default function PostSmall({
   user,
   className = "",
 }: {
-  onLike: (postId: number, userId: string) => Promise<void>;
+  onLike: () => void;
   onComment: () => void;
   href: string;
   post: any;
@@ -24,7 +24,8 @@ export default function PostSmall({
   return (
     <div
       className={
-        "lex flex-col overflow-hidden rounded-lg shadow-lg " + className
+        "my-8 flex flex-col overflow-hidden rounded-lg bg-gray-800 shadow-lg" +
+        className
       }
     >
       <div className="flex flex-1 flex-col justify-between p-6 pb-3">
@@ -41,7 +42,7 @@ export default function PostSmall({
             </div>
             <div className="ml-4 flex-1">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-gray-100">
+                <p className="text-lg font-semibold text-gray-100">
                   {user?.name}
                 </p>
                 <p className="text-sm text-gray-300">
@@ -65,7 +66,7 @@ export default function PostSmall({
         <PostActions
           onComment={onComment}
           onLike={onLike}
-          liked={post.liked}
+          liked={post.likes.some((like: any) => like.userId === user?.id)}
           totalComments={post.totalComments}
           totalLikes={post.totalLikes}
         />

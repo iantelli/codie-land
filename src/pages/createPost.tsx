@@ -21,9 +21,6 @@ export default function CreatePost() {
 
   return (
     <>
-      <Head>
-        <title>Create a Snippet</title>
-      </Head>
       <div className="mx-auto my-6 max-w-5xl px-6 pt-8 pb-10 lg:pt-12 lg:pb-14">
         <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-100 sm:text-5xl md:text-6xl">
           Create a Snippet

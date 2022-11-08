@@ -41,4 +41,43 @@ export const likeRouter = router({
         console.log(error);
       }
     }),
+  unlikePost: protectedProcedure
+    .input(
+      z.object({
+        postId: z.number(),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.post.update({
+          where: {
+            id: input.postId,
+          },
+          data: {
+            totalLikes: {
+              decrement: 1,
+            },
+          },
+        });
+        await ctx.prisma.user.update({
+          where: {
+            id: input.userId,
+          },
+          data: {
+            totalLikes: {
+              decrement: 1,
+            },
+          },
+        });
+        await ctx.prisma.like.deleteMany({
+          where: {
+            postId: input.postId,
+            userId: input.userId,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });

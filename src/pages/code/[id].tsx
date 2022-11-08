@@ -4,8 +4,6 @@ import CommentForm from "../../components/CommentForm";
 import { trpc } from "../../utils/trpc";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import Head from "next/head";
-import { useEffect } from "react";
 
 export default function Code() {
   const { data: session } = useSession();
@@ -18,12 +16,12 @@ export default function Code() {
   const commentContent = trpc.comment.createComment.useMutation();
   const like = trpc.like.likePost.useMutation();
 
-  const handleLike = async (postId: number, userId: string) => {
+  const handleLike = async (postId: number) => {
     if (!session) {
       signIn();
       return;
     }
-    await like.mutateAsync({ postId, userId });
+    await like.mutateAsync({ postId, userId: session!.user!.id });
   };
 
   const handleSubmitComment = async (content: string) => {
@@ -39,21 +37,18 @@ export default function Code() {
 
   return (
     <>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/hybrid.min.css"
-        />
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-      </Head>
-      <Post
-        className="mx-auto my-6 max-w-2xl px-6"
-        post={post}
-        onLike={handleLike}
-        onComment={() => router.push(`/code/${post?.id}`)}
-        user={post?.User}
-        liked={false}
-      />
+      <div className="mx-auto max-w-7xl px-2 pt-8 pb-10 lg:pt-12 lg:pb-14">
+        <div className="mx-auto max-w-2xl rounded-lg bg-gray-800 pt-2">
+          <Post
+            className="mx-auto my-6 max-w-2xl px-6"
+            post={post}
+            onLike={() => handleLike(post!.id)}
+            onComment={() => router.push(`/code/${post?.id}`)}
+            user={post?.User}
+            liked={false}
+          />
+        </div>
+      </div>
       <div className="mx-auto my-6 max-w-2xl border-t border-gray-600">
         {session ? (
           <CommentForm onSubmit={handleSubmitComment} user={session.user} />

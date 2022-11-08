@@ -18,7 +18,7 @@ export default function Post({
   className = "",
 }: {
   onComment: () => void;
-  onLike: (postId: number, userId: string) => Promise<void>;
+  onLike: () => void;
   liked: boolean;
   post: any;
   user: any;
@@ -76,7 +76,7 @@ export default function Post({
           className="mt-6 mb-3"
           onComment={onComment}
           onLike={onLike}
-          liked={liked}
+          liked={post.likes.some((like: any) => like.userId === user?.id)}
           totalComments={post?.totalComments}
           totalLikes={post?.totalLikes}
         />

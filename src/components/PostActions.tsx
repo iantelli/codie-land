@@ -16,7 +16,7 @@ export default function PostActions({
   className = "",
 }: {
   onComment: () => void;
-  onLike: (postId: number, userId: string) => Promise<void>;
+  onLike: () => void;
   totalLikes: number;
   totalComments: number;
   liked: boolean;
@@ -32,14 +32,14 @@ export default function PostActions({
         <CommentIcon className="h-7 w-7" aria-hidden="true" />
       </button>
       <button
-        onClick={() => onLike}
+        onClick={onLike}
         className="flex flex-col items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-500 hover:outline-none"
       >
         <span>{totalLikes}</span>
-        {!liked ? (
-          <HeartIcon className="h-7 w-7" aria-hidden="true" />
-        ) : (
+        {liked ? (
           <HeartIconSolid className="h-7 w-7" aria-hidden="true" />
+        ) : (
+          <HeartIcon className="h-7 w-7" aria-hidden="true" />
         )}
       </button>
     </div>

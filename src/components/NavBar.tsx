@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { UsersIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ArrowDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -31,7 +31,10 @@ export default function Navbar() {
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <UsersIcon className="block h-6 w-6" aria-hidden="true" />
+                    <ArrowDownIcon
+                      className="block h-6 w-6"
+                      aria-hidden="true"
+                    />
                   )}
                 </Disclosure.Button>
               </div>
@@ -74,9 +77,7 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={
-                          session?.user?.image ?? "https://imgur.com/HAvkX9m"
-                        }
+                        src={session?.user?.image ?? "/user.png"}
                         alt={session?.user?.name ?? "Anonymous"}
                       />
                     </Menu.Button>
@@ -111,7 +112,7 @@ export default function Navbar() {
                               onClick={onSignOut}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                "block w-full px-4 py-2 text-left text-sm text-gray-700"
                               )}
                             >
                               Sign out

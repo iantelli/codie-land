@@ -4,6 +4,8 @@ import CommentForm from "../../components/CommentForm";
 import { trpc } from "../../utils/trpc";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { useEffect } from "react";
 
 export default function Code() {
   const { data: session } = useSession();
@@ -30,12 +32,20 @@ export default function Code() {
       postId: id,
       userId: session!.user!.id,
     });
+    router.reload();
   };
 
   if (isLoading && commentsLoading) return <div>Fetching posts...</div>;
 
   return (
     <>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/hybrid.min.css"
+        />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+      </Head>
       <Post
         className="mx-auto my-6 max-w-2xl px-6"
         post={post}
@@ -52,8 +62,6 @@ export default function Code() {
         )}
         <Comments comments={comments} />
       </div>
-
-      <div> </div>
     </>
   );
 }

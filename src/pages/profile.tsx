@@ -7,6 +7,7 @@ import { trpc } from "../utils/trpc";
 import Comments from "../components/Comments";
 import PostSmall from "../components/PostSmall";
 import Button from "../components/Button";
+import Head from "next/head";
 
 export default function Component() {
   const { data: session } = useSession();
@@ -32,6 +33,13 @@ export default function Component() {
   if (session) {
     return (
       <>
+        <Head>
+          <link
+            rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/hybrid.min.css"
+          />
+          <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+        </Head>
         <div className="mx-auto max-w-7xl px-2 pt-8 pb-10 lg:pt-12 lg:pb-14">
           <div className="mx-auto max-w-2xl">
             <h1 className="text-3xl font-bold text-gray-100">

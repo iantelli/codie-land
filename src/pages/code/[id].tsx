@@ -15,13 +15,19 @@ export default function Code() {
     trpc.comment.getAllFromPost.useQuery({ id });
   const commentContent = trpc.comment.createComment.useMutation();
   const like = trpc.like.likePost.useMutation();
+  const unlike = trpc.like.unlikePost.useMutation();
 
-  const handleLike = async (postId: number) => {
+  const handleLike = async (postId: number, userId: string) => {
     if (!session) {
       signIn();
       return;
     }
-    await like.mutateAsync({ postId, userId: session!.user!.id });
+
+    if (post!.likes.find((like) => like.userId === userId)) {
+      await unlike.mutateAsync({ postId, userId });
+      return;
+    }
+    await like.mutateAsync({ postId, userId });
   };
 
   const handleSubmitComment = async (content: string) => {
@@ -42,7 +48,7 @@ export default function Code() {
           <Post
             className="mx-auto my-6 max-w-2xl px-6"
             post={post}
-            onLike={() => handleLike(post!.id)}
+            onLike={() => handleLike(post!.id, session!.user!.id)}
             onComment={() => router.push(`/code/${post?.id}`)}
             user={post?.User}
             liked={false}

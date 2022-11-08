@@ -28,9 +28,16 @@ export default function Component() {
       signIn();
       return;
     }
-    if (post.liked) {
-      await like.mutateAsync({ postId, userId });
+
+    if (
+      posts!
+        .find((post) => post.id === postId)
+        ?.likes.find((like) => like.userId === userId)
+    ) {
+      await unlike.mutateAsync({ postId, userId });
+      return;
     }
+    await like.mutateAsync({ postId, userId });
   };
 
   if (session) {

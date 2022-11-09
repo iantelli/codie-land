@@ -29,13 +29,8 @@ const Home = () => {
 
   if (isLoading)
     return (
-      <div className="mt-6 flex items-center justify-center space-x-2">
-        <div
-          className="spinner-border inline-block h-12 w-12 animate-spin rounded-full border-4"
-          role="status"
-        >
-          <span className="invisible">Loading...</span>
-        </div>
+      <div className="absolute right-1/2 bottom-1/2  translate-x-1/2 translate-y-1/2 transform ">
+        <div className="h-64 w-64 animate-spin  rounded-full border-8 border-solid border-blue-400 border-t-transparent"></div>
       </div>
     );
 

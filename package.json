@@ -19,7 +19,7 @@
     "@trpc/client": "^10.0.0-proxy-beta.26",
     "@trpc/next": "^10.0.0-proxy-beta.26",
     "@trpc/react-query": "^10.0.0-proxy-beta.26",
-    "@trpc/server": "^10.0.0-proxy-beta.26",
+    "@trpc/server": "^10.0.0-rc.7",
     "@types/react-highlight": "^0.12.5",
     "heroicons": "^2.0.13",
     "highlight.js": "^11.6.0",

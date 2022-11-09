@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import { trpc } from "../utils/trpc";
-import PostSmall from "../components/PostSmall";
 import { useRouter } from "next/router";
+import PostSmall from "../components/PostSmall";
+import { trpc } from "../utils/trpc";
 
 const Home = () => {
   const { data: posts, isLoading } = trpc.post.getAll.useQuery();
@@ -27,7 +27,17 @@ const Home = () => {
     await like.mutateAsync({ postId, userId });
   };
 
-  if (isLoading) return <div>Fetching posts...</div>;
+  if (isLoading)
+    return (
+      <div className="mt-6 flex items-center justify-center space-x-2">
+        <div
+          className="spinner-border inline-block h-12 w-12 animate-spin rounded-full border-4"
+          role="status"
+        >
+          <span className="invisible">Loading...</span>
+        </div>
+      </div>
+    );
 
   return (
     <>

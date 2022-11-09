@@ -1,9 +1,9 @@
-import Post from "../../components/Post";
-import Comments from "../../components/Comments";
-import CommentForm from "../../components/CommentForm";
-import { trpc } from "../../utils/trpc";
-import { useSession, signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import CommentForm from "../../components/CommentForm";
+import Comments from "../../components/Comments";
+import Post from "../../components/Post";
+import { trpc } from "../../utils/trpc";
 
 export default function Code() {
   const { data: session } = useSession();
@@ -39,7 +39,17 @@ export default function Code() {
     router.reload();
   };
 
-  if (isLoading && commentsLoading) return <div>Fetching posts...</div>;
+  if (isLoading && commentsLoading)
+    return (
+      <div className="mt-6 flex items-center justify-center space-x-2">
+        <div
+          className="spinner-border inline-block h-12 w-12 animate-spin rounded-full border-4"
+          role="status"
+        >
+          <span className="invisible">Loading...</span>
+        </div>
+      </div>
+    );
 
   return (
     <>

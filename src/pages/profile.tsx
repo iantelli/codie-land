@@ -1,13 +1,13 @@
 // /pages/profile.jsx
-import { useSession, signIn, signOut } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { trpc } from "../utils/trpc";
+import Button from "../components/Button";
 import Comments from "../components/Comments";
 import PostSmall from "../components/PostSmall";
-import Button from "../components/Button";
-import Head from "next/head";
+import { trpc } from "../utils/trpc";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 export default function Component() {
   const { data: session } = useSession();
@@ -66,7 +66,14 @@ export default function Component() {
             </h1>
             {posts?.map((post, index) =>
               postsLoading ? (
-                <div>Loading...</div>
+                <div className="mt-6 flex items-center justify-center space-x-2">
+                  <div
+                    className="spinner-border inline-block h-12 w-12 animate-spin rounded-full border-4"
+                    role="status"
+                  >
+                    <span className="invisible">Loading...</span>
+                  </div>
+                </div>
               ) : (
                 <>
                   <PostSmall
@@ -86,7 +93,14 @@ export default function Component() {
               Your Comments
             </h1>
             {commentsLoading ? (
-              <div>Loading...</div>
+              <div className="mt-6 flex items-center justify-center space-x-2">
+                <div
+                  className="spinner-border inline-block h-12 w-12 animate-spin rounded-full border-4"
+                  role="status"
+                >
+                  <span className="invisible">Loading...</span>
+                </div>
+              </div>
             ) : (
               <Comments comments={comments} />
             )}

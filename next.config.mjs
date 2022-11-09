@@ -17,6 +17,7 @@ const config = {
     domains: [
       "cdn.discordapp.com",
       "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
       "imgur.com",
     ],
   },

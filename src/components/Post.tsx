@@ -79,7 +79,7 @@ export default function Post({
           onComment={onComment}
           onLike={onLike}
           liked={post.likes.some(
-            (like: any) => like.userId === session!.user?.id
+            (like: any) => like.userId === session?.user?.id
           )}
           totalComments={post?.totalComments}
           totalLikes={post?.totalLikes}

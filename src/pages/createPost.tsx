@@ -1,9 +1,7 @@
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { FormEventHandler, useState, useContext } from "react";
 import NewPostForm from "../components/NewPostForm";
-import Head from "next/head";
 
 export default function CreatePost() {
   const { data: session } = useSession();

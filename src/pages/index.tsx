@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import PostSmall from "../components/PostSmall";
 import { trpc } from "../utils/trpc";

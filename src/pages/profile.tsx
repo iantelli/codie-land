@@ -1,7 +1,6 @@
 // /pages/profile.jsx
 import { unstable_getServerSession } from "next-auth/next";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import Button from "../components/Button";
 import Comments from "../components/Comments";

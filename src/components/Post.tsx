@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 import PostActions from "./PostActions";
 
@@ -26,6 +27,7 @@ export default function Post({
   largeMaxWidth?: string;
   className?: string;
 }) {
+  const { data: session } = useSession();
   return (
     <>
       <div
@@ -76,7 +78,9 @@ export default function Post({
           className="mt-6 mb-3"
           onComment={onComment}
           onLike={onLike}
-          liked={post.likes.some((like: any) => like.userId === user?.id)}
+          liked={post.likes.some(
+            (like: any) => like.userId === session!.user?.id
+          )}
           totalComments={post?.totalComments}
           totalLikes={post?.totalLikes}
         />

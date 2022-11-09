@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 import PostActions from "./PostActions";
 
@@ -21,6 +22,7 @@ export default function PostSmall({
   user: any;
   className?: string;
 }) {
+  const { data: session } = useSession();
   return (
     <div
       className={
@@ -66,7 +68,9 @@ export default function PostSmall({
         <PostActions
           onComment={onComment}
           onLike={onLike}
-          liked={post.likes.some((like: any) => like.userId === user?.id)}
+          liked={post.likes.some(
+            (like: any) => like.userId === session?.user?.id
+          )}
           totalComments={post.totalComments}
           totalLikes={post.totalLikes}
         />

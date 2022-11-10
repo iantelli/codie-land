@@ -38,7 +38,7 @@ export default function Code() {
       postId: id,
       userId: session!.user!.id,
     });
-    trpc.comment.getAllFromPost.useQuery({ id });
+    await trpc.comment.getAllFromPost.useQuery({ id });
   };
 
   if (isLoading && commentsLoading)

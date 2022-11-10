@@ -13,10 +13,6 @@ const Home = () => {
 
   const [allPosts, setAllPosts] = useState(posts);
 
-  useEffect(() => {
-    setAllPosts(posts);
-  }, [posts, like, unlike]);
-
   const handleLike = async (postId: number, userId: string) => {
     if (!session) {
       router.push("/api/auth/signin");
@@ -32,6 +28,10 @@ const Home = () => {
     }
     await like.mutateAsync({ postId, userId });
   };
+
+  useEffect(() => {
+    setAllPosts(posts);
+  }, [posts, handleLike]);
 
   if (isLoading)
     return (

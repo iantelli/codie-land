@@ -22,9 +22,11 @@ const Home = () => {
         ?.likes.find((like) => like.userId === userId)
     ) {
       await unlike.mutateAsync({ postId, userId });
+      router.reload();
       return;
     }
     await like.mutateAsync({ postId, userId });
+    router.reload();
   };
 
   if (isLoading)

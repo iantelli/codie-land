@@ -1,32 +1,38 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import PostSmall from "../components/PostSmall";
 import { trpc } from "../utils/trpc";
 
 const Home = () => {
-  const { data: posts, isLoading } = trpc.post.getAll.useQuery();
   const { data: session } = useSession();
+  const { data: posts, isLoading } = trpc.post.getAll.useQuery();
   const router = useRouter();
   const like = trpc.like.likePost.useMutation();
   const unlike = trpc.like.unlikePost.useMutation();
 
+  const [allPosts, setAllPosts] = useState(posts);
+
+  useEffect(() => {
+    setAllPosts(posts);
+  }, [posts]);
+
   const handleLike = async (postId: number, userId: string) => {
     if (!session) {
-      signIn();
+      router.push("/api/auth/signin");
       return;
     }
-
     if (
       posts!
         .find((post) => post.id === postId)
         ?.likes.find((like) => like.userId === userId)
     ) {
       await unlike.mutateAsync({ postId, userId });
-      await trpc.post.getAll.useQuery().refetch();
+      setAllPosts(trpc.post.getAll.useQuery().data);
       return;
     }
     await like.mutateAsync({ postId, userId });
-    await trpc.post.getAll.useQuery().refetch();
+    setAllPosts(trpc.post.getAll.useQuery().data);
   };
 
   if (isLoading)
@@ -40,9 +46,10 @@ const Home = () => {
     <>
       <div className="mx-auto max-w-7xl px-2 pt-8 pb-10 lg:pt-12 lg:pb-14">
         <div className="mx-auto max-w-2xl">
-          {posts?.map((post, index) => {
+          {allPosts?.map((post, index) => {
             return (
               <>
+                {console.log(allPosts)}
                 <PostSmall
                   key={index}
                   post={post}

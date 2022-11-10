@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { router, protectedProcedure } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 
 export const likeRouter = router({
   likePost: protectedProcedure
@@ -11,6 +11,18 @@ export const likeRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        await ctx.prisma.like.upsert({
+          where: {
+          },
+          create: {
+            postId: input.postId,
+            userId: input.userId,
+          },
+          update: {
+            postId: input.postId,
+            userId: input.userId,
+          },
+        });
         await ctx.prisma.post.update({
           where: {
             id: input.postId,
@@ -29,12 +41,6 @@ export const likeRouter = router({
             totalLikes: {
               increment: 1,
             },
-          },
-        });
-        await ctx.prisma.like.create({
-          data: {
-            postId: input.postId,
-            userId: input.userId,
           },
         });
       } catch (error) {
@@ -50,13 +56,25 @@ export const likeRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        const counter = await ctx.prisma.like.count({
+          where: {
+            postId: input.postId,
+            userId: input.userId,
+          },
+        });
+        await ctx.prisma.like.deleteMany({
+          where: {
+            postId: input.postId,
+            userId: input.userId,
+          },
+        });
         await ctx.prisma.post.update({
           where: {
             id: input.postId,
           },
           data: {
             totalLikes: {
-              decrement: 1,
+              decrement: counter,
             },
           },
         });
@@ -66,16 +84,11 @@ export const likeRouter = router({
           },
           data: {
             totalLikes: {
-              decrement: 1,
+              decrement: counter,
             },
           },
         });
-        await ctx.prisma.like.deleteMany({
-          where: {
-            postId: input.postId,
-            userId: input.userId,
-          },
-        });
+
       } catch (error) {
         console.log(error);
       }

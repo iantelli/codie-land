@@ -25,11 +25,9 @@ export default function Code() {
 
     if (post!.likes.find((like) => like.userId === userId)) {
       await unlike.mutateAsync({ postId, userId });
-      trpc.post.findPost.useQuery({ id }).refetch();
       return;
     }
     await like.mutateAsync({ postId, userId });
-    trpc.post.findPost.useQuery({ id }).refetch();
   };
 
   const handleSubmitComment = async (content: string) => {
@@ -38,7 +36,7 @@ export default function Code() {
       postId: id,
       userId: session!.user!.id,
     });
-    trpc.comment.getAllFromPost.useQuery({ id });
+    router.reload();
   };
 
   if (isLoading && commentsLoading)

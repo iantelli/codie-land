@@ -13,6 +13,10 @@ const Home = () => {
 
   const [allPosts, setAllPosts] = useState(posts);
 
+  useEffect(() => {
+    setAllPosts(posts);
+  }, [posts]);
+
   const handleLike = async (postId: number, userId: string) => {
     if (!session) {
       router.push("/api/auth/signin");
@@ -24,14 +28,12 @@ const Home = () => {
         ?.likes.find((like) => like.userId === userId)
     ) {
       await unlike.mutateAsync({ postId, userId });
+      setAllPosts(trpc.post.getAll.useQuery().data);
       return;
     }
     await like.mutateAsync({ postId, userId });
+    setAllPosts(trpc.post.getAll.useQuery().data);
   };
-
-  useEffect(() => {
-    setAllPosts(posts);
-  }, [posts, handleLike]);
 
   if (isLoading)
     return (
@@ -47,6 +49,7 @@ const Home = () => {
           {allPosts?.map((post, index) => {
             return (
               <>
+                {console.log(allPosts)}
                 <PostSmall
                   key={index}
                   post={post}

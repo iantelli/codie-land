@@ -34,9 +34,19 @@ export default function Component() {
         ?.likes.find((like) => like.userId === userId)
     ) {
       await unlike.mutateAsync({ postId, userId });
+      trpc.post.findPostsByUserId
+        .useQuery({
+          id: session!.user!.id,
+        })
+        .refetch();
       return;
     }
     await like.mutateAsync({ postId, userId });
+    trpc.post.findPostsByUserId
+      .useQuery({
+        id: session!.user!.id,
+      })
+      .refetch();
   };
 
   if (session) {

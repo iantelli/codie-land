@@ -2,6 +2,7 @@
 import { unstable_getServerSession } from "next-auth/next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Button from "../components/Button";
 import Comments from "../components/Comments";
 import PostSmall from "../components/PostSmall";
@@ -10,6 +11,8 @@ import { authOptions } from "./api/auth/[...nextauth]";
 
 export default function Component() {
   const { data: session } = useSession();
+  const router = useRouter();
+
   const { data: posts, isLoading: postsLoading } =
     trpc.post.findPostsByUserId.useQuery({
       id: session!.user!.id,
@@ -18,9 +21,11 @@ export default function Component() {
     trpc.comment.findCommentsByUserId.useQuery({
       id: session!.user!.id,
     });
-  const router = useRouter();
+
   const like = trpc.like.likePost.useMutation();
   const unlike = trpc.like.unlikePost.useMutation();
+
+  const [disabled, setDisabled] = useState(false);
 
   const handleLike = async (postId: number, userId: string) => {
     if (!session) {
@@ -28,15 +33,23 @@ export default function Component() {
       return;
     }
 
+    if (disabled) return;
+
     if (
       posts!
         .find((post) => post.id === postId)
         ?.likes.find((like) => like.userId === userId)
     ) {
+      setDisabled(true);
       await unlike.mutateAsync({ postId, userId });
+      setDisabled(false);
+      router.reload();
       return;
     }
+    setDisabled(true);
     await like.mutateAsync({ postId, userId });
+    setDisabled(false);
+    router.reload();
   };
 
   if (session) {

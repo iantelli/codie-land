@@ -11,6 +11,7 @@ export default function PostActions({
   totalComments,
   liked,
   className = "",
+  disabled,
 }: {
   onComment: () => void;
   onLike: () => void;
@@ -18,6 +19,7 @@ export default function PostActions({
   totalComments: number;
   liked: boolean;
   className?: string;
+  disabled?: boolean;
 }) {
   return (
     <div className={"flex items-center justify-between " + className}>
@@ -29,7 +31,8 @@ export default function PostActions({
         <CommentIcon className="h-7 w-7" aria-hidden="true" />
       </button>
       <button
-        onClick={() => setTimeout(onLike, 2000)}
+        onClick={() => onLike()}
+        disabled={disabled}
         className="flex flex-col items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-500 hover:outline-none"
       >
         <span>{totalLikes}</span>

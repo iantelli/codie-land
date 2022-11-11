@@ -1,5 +1,6 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import PostSmall from "../components/PostSmall";
 import { trpc } from "../utils/trpc";
 
@@ -10,22 +11,27 @@ const Home = () => {
   const like = trpc.like.likePost.useMutation();
   const unlike = trpc.like.unlikePost.useMutation();
 
+  const [disabled, setDisabled] = useState(false);
+
   const handleLike = async (postId: number, userId: string) => {
     if (!session) {
-      signIn();
       return;
     }
-
+    if (disabled) return;
     if (
       posts!
         .find((post) => post.id === postId)
         ?.likes.find((like) => like.userId === userId)
     ) {
+      setDisabled(true);
       await unlike.mutateAsync({ postId, userId });
+      setDisabled(false);
       router.reload();
       return;
     }
+    setDisabled(true);
     await like.mutateAsync({ postId, userId });
+    setDisabled(false);
     router.reload();
   };
 

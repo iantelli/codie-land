@@ -29,7 +29,7 @@ export default function PostActions({
         <CommentIcon className="h-7 w-7" aria-hidden="true" />
       </button>
       <button
-        onClick={onLike}
+        onClick={() => setTimeout(onLike, 2000)}
         className="flex flex-col items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-500 hover:outline-none"
       >
         <span>{totalLikes}</span>
